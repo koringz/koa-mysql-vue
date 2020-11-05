@@ -4,6 +4,10 @@ Vue.use(Router)
 
 const rt = [
   { 
+    path: '*',
+    redirect: '/login',
+  },
+  { 
     path: '/login',
     name: 'login',
     component:  () => import('pages/Login/index.vue')
