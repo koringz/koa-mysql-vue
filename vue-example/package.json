@@ -1,0 +1,52 @@
+{
+  "name": "front-ui-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode dev",
+    "build-prod": "vue-cli-service build --mode prod",
+    "build-test": "vue-cli-service build --mode test",
+    "a-test": "browser-sync start --server --files dist/index.html",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@antv/g6": "^3.5.10",
+    "animate.css": "^4.1.0",
+    "axios": "^0.21.0",
+    "babel-polyfill": "^6.26.0",
+    "compression-webpack-plugin": "^4.0.0",
+    "core-js": "^3.6.5",
+    "echarts": "^4.9.0",
+    "element-ui": "^2.13.2",
+    "image-webpack-loader": "^6.0.0",
+    "node-sass": "^4.14.1",
+    "prerender-spa-plugin": "^3.4.0",
+    "qs": "^6.9.4",
+    "sass-loader": "^9.0.2",
+    "scss-loader": "^0.0.1",
+    "style-resources-loader": "^1.3.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.2",
+    "webpack-bundle-analyzer": "^3.8.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "babel-eslint": "^10.1.0",
+    "clipboard": "^2.0.6",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "jquery": "^3.5.1",
+    "v-viewer": "^1.5.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

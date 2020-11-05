@@ -1,0 +1,1 @@
+module.exports.jwt_secret = 'jwt secrect 20201103'

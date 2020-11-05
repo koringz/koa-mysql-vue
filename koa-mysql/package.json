@@ -1,0 +1,37 @@
+{
+  "name": "koa-mysql",
+  "description": "A very simple blog using mysql via monk",
+  "version": "0.0.1",
+  "dependencies": {
+    "ajv": "^6.12.5",
+    "co": "^4.6.0",
+    "co-body": "^6.0.0",
+    "co-monk": "^1.0.0",
+    "co-views": "^2.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-jwt": "^4.0.0",
+    "koa-logger": "^3.2.1",
+    "koa-route": "^3.2.0",
+    "koa-router": "^9.4.0",
+    "koa-validate": "^1.0.7",
+    "monk": "^7.3.2",
+    "mysql": "mysqljs/mysql",
+    "nodemon": "^2.0.4",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --harmony-generators test.js -u bdd -R spec",
+    "start": "nodemon --harmony  index.js"
+  },
+  "engines": {
+    "node": "0.12.2"
+  },
+  "license": "MIT"
+}

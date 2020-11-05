@@ -1,0 +1,138 @@
+.feut{
+    margin-left: 280px;
+    padding: 24px;
+}
+.operation-category{
+    padding-top: 20px;
+}
+.mb20{
+    margin-bottom: 20px;
+}
+.mt20{
+    margin-top: 20px;
+}
+.el-table td, 
+.el-table th.is-leaf{
+    height: 48px;
+    line-height: 48px;
+    padding: 0;
+    font-size: 14px;
+}
+/* 表单 */
+.el-form-item__label{
+    color: #d5d6d0;
+}
+.el-textarea__inner,
+.el-range-input,
+.el-input__inner{
+    color: #fff;
+    border-color: #4062a0;
+    background-color: #0d1623;
+}
+.el-textarea__inner:hover,
+.el-range-input:hover,
+.el-input__inner:hover{
+    border-color: #0d1623 !important;
+}
+
+/* 列表 */
+.feut-table {
+    border: 1px solid #405c8e;
+    border-bottom: none;
+}
+.el-table{
+    margin-left: 1px;
+    border-bottom: none;
+    color: #6a88b5;
+    background-color: transparent;
+}
+.el-table td, 
+.el-table th{
+    padding: 0;
+    line-height: 44px;
+    height: 44px;
+    border-bottom: 1px solid #405c8e !important;
+}
+.el-table .el-table__header th{
+    background-color: #2a436f;
+    color: #fff;
+}
+.el-table::before,
+.el-table tr{
+    background-color: #141f2f;
+    border-bottom: 1px solid #405c8e !important;
+}
+.el-table tr.current-row td,
+.el-table tr:hover td{
+    background-color: #1e2f4e !important;
+}
+.el-table td .el-button{
+    padding: 2px 3px;
+    text-align: center;
+}
+.el-table th,
+.el-table__empty-block{
+    background-color: transparent;
+}
+.el-pagination{
+    text-align: right;
+    padding: 20px 24px 16px 24px;
+}
+.el-pagination__total{
+    float: left;
+    color: #333 !important;
+}
+.el-pagination__total,
+.el-pagination__jump{
+    color: #809ec7;
+}
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev{
+    padding: 0 5px;
+}
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li{
+    font-weight: 400;
+    font-size: 14px;
+    border-radius:4px;
+    color: #fff !important;
+    border: #141f2f !important;
+    background: #1e2f4e;
+}
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li,
+.el-pagination__editor.el-input .el-input__inner,
+.el-pagination .el-select .el-input .el-input__inner,
+.el-pagination span:not([class*=suffix]){
+    color: #8cb1e6 !important;
+    height: 32px;
+    line-height: 32px;
+}
+.el-pagination .el-select .el-input .el-input__inner,
+.el-pagination__editor.el-input .el-input__inner{
+    border-color: #3b5871 !important;
+    background-color: transparent !important;
+}
+.el-pagination__editor.el-input .el-input__inner{
+    border-color: #E2E3E5;
+}
+.el-pagination.is-background .btn-prev:disabled,
+.el-pagination.is-background .btn-next:disabled{
+    color: #141f2f !important;
+    background: #1e2f4e;
+}
+.el-input--mini .el-input__inner{
+    line-height: 26px;
+}
+
+/* checkbox */
+.el-checkbox__inner{
+    background-color: #405c8e;
+}
+/* switch */
+.el-switch__core{
+    background-color: #405c8e;
+    border-color: #405c8e;
+}
