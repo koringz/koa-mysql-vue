@@ -225,7 +225,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .echart-box {
   width: 100%;
   height: 100%;

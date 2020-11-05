@@ -80,20 +80,21 @@
   }
 </script>
 
-<style lang='scss' scoped>
+<style scoped>
 .feut-menu{
     position: absolute;
     width: 280px;
     top: 0;
     bottom: 0;
     overflow: auto;
-    .el-menu{
-        height: 100%;
-        width: 100%;
-        overflow: auto;
-        border-right-color: #363f77;
-        background-color: #1e2f4e !important;
-    }
+   
+}
+ .el-menu{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border-right-color: #363f77;
+    background-color: #1e2f4e !important;
 }
 .el-menu-vertical-demo{
     height: 100%;

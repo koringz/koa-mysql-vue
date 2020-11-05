@@ -594,5 +594,5 @@ import  behavior  from "./behavior.vue";
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

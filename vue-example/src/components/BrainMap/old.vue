@@ -418,5 +418,5 @@ import G6 from '@antv/g6';
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>
