@@ -51,11 +51,11 @@ export default {
   },
   data() {
     return {
-      action: 'https://jsonplaceholder.typicode.com/posts/',
+      action: 'api/upload',
       //上传文件头
       headers: {
-        Authorization: localStorage.getItem('token'),
-        'x-access-token': localStorage.getItem('token')
+        Authorization:  'Bearer ' + sessionStorage.getItem('token'),
+        // 'x-access-token': sessionStorage.getItem('token')
       },
       fileList: [],
       dialogVisible: false,
@@ -65,31 +65,34 @@ export default {
   watch: {
     otherFileList: {
       handler(newVal, oldVal) {
-        // this.fileList = this.getFileFullurl(newVal)
+        this.fileList = this.getFileFullurl(newVal)
       }
     }
   },
   // 默认显示图片  配置 this.fileList
   mounted() {
     // this.fileList = this.getFileFullurl(this.otherFileList)
-    this.fileList = [
-          {
-              name: 'food.jpeg', 
-              url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-          }, 
-          {
-              name: 'food2.jpeg', 
-              url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-          }
-      ]
+    // this.fileList = [
+    //       {
+    //           name: 'food.jpeg', 
+    //           url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+    //       }, 
+    //       {
+    //           name: 'food2.jpeg', 
+    //           url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+    //       }
+    //   ]
   },
   methods: {
+    mixin_getFileUrl(url) {
+      return url
+    },
     //补全url全路径
     getFileFullurl(data){
       if(data){
         return data.map(item =>({
-            attachFileName:item.attachFileName,      
-            attachType:item.attachType,      
+            attachFileName:item.attachFileName,
+            attachType:item.attachType,
             attachUrl:item.attachUrl,
             name:item.name,
             status:item.status,

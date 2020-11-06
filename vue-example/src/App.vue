@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view />
+      <transition>
+        <keep-alive>
+            <router-view />
+        </keep-alive>
+      </transition>
   </div>
 </template>
 
@@ -26,7 +30,6 @@ body,
   position: relative;
   margin-top: 48px;
   height: calc(100% - 48px);
-  overflow: hidden;
 }
 
 </style>

@@ -17,6 +17,7 @@
     "koa-route": "^3.2.0",
     "koa-router": "^9.4.0",
     "koa-validate": "^1.0.7",
+    "mime-types": "^2.1.27",
     "monk": "^7.3.2",
     "multer": "^1.4.2",
     "mysql": "mysqljs/mysql",

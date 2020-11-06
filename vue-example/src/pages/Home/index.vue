@@ -1,14 +1,12 @@
 <template>
   <div style="height: 100%; padding-top: 1px;;">
-    <Header/>
-    <div class="container">
-      <Navmenu />
-      <div class="feut">
-        <keep-alive>
-          <router-view />
-        </keep-alive>
+      <Header/>
+      <div class="container">
+        <Navmenu />
+        <div class="feut">
+            <router-view />
+        </div>
       </div>
-    </div>
   </div>
 </template>
 

@@ -7,4 +7,6 @@ export default {
     api_delete_item: (options) => xhr_axios.post('/api/deleteitem', options, 'json'), // 删除数据
     api_add_case: (options) => xhr_axios.post('/api/addcase', options, 'json'), // 添加数据
     api_detail_list: (options) => xhr_axios.get('/api/detaillist', options, 'json'), // 详情信息
+    api_access_file: (options) => xhr_axios.get('/api/accessfile', options, 'json'), // 访问文件
+    api_download_file: (options) => xhr_axios.get('/api/downloadfile', options, 'json'), // 下载文件
 }

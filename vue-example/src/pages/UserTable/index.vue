@@ -1,63 +1,45 @@
 <template>
     <div>
-        <div class="feut-table">
-            <el-table
-                row-key="id"
-                :data="TableData"
-                v-loading='loading'
-                @filter-change='handleFilterChange'
-                @selection-change='handleAllSelectionChange'>
-                <el-table-column :show-overflow-tooltip='true' prop="tableName" label="名称">
-                    <template slot-scope="scope">
-                        {{ scope.row.tableName != '' ? scope.row.tableName : '无'}}
-                    </template>
-                </el-table-column>
-                <el-table-column :show-overflow-tooltip='true' prop="tableAccount" label="账号">
-                    <template slot-scope="scope">
-                        {{ scope.row.tableAccount != '' ?  scope.row.tableAccount :  '无'}}
-                    </template>
-                </el-table-column>
-                <el-table-column :show-overflow-tooltip='true' prop="tableBank" label="银行">
-                    <template slot-scope="scope">
-                        {{ scope.row.tableBank != '' ? scope.row.tableBank : '无' }}
-                    </template>
-                </el-table-column>
-                <el-table-column :show-overflow-tooltip='true' prop="tablePeople" label="开户人">
-                    <template slot-scope="scope">
-                        {{scope.row.tablePeople != '' ? scope.row.tablePeople : '无' }}
-                    </template>
-                </el-table-column>
-                <el-table-column :show-overflow-tooltip='true' prop="tableStatus" label="状态">
-                    <template slot-scope="scope">
-                        {{ scope.row.tableStatus != '' ? scope.row.tableStatus : '无' }}
-                    </template>
-                </el-table-column>
-                <el-table-column :show-overflow-tooltip='true' prop="tableTime" label="处理时间">
-                    <template slot-scope="scope">
-                        {{ scope.row.tableTime != '' ? scope.row.tableTime : '无' }}
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作">
-                    <template slot-scope="scope">
-                        <a @click="handleAdd(scope.row, scope.$index)">添加</a> &nbsp;&nbsp;
-                        <a @click="handleDelete(scope.row, scope.$index)">删除</a>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
-        <div class="feut-pagination">
-            <el-pagination
-                background
-                prev-text='上一页'
-                next-text='下一页'
-                :total="pagTable.total"
-                :current-page="pagTable.page"
-                :page-size.sync="pagTable.size"
-                :pager-count="pagTable.count"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                layout="total, sizes, prev, pager, next, jumper"/>
-        </div>
+        
+        <template>
+            <div class="feut-table">
+                <el-table
+                    row-key="id"
+                    :data="tableData"
+                    v-loading='loading'
+                    @filter-change='handleFilterChange'
+                    @selection-change='handleAllSelectionChange'>
+                    <el-table-column show-overflow-tooltip min-width="100px" prop="name" label="名称"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="100px" sortable prop="path" label="路径"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="100px" sortable prop="size" label="大小"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="100px" sortable prop="type" label="类型"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="100px" sortable prop="upload_time" label="时间"></el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <a @click="handleAdd(scope.row, scope.$index)">添加</a> &nbsp;&nbsp;
+                            <a @click="handleDelete(scope.row, scope.$index)">删除</a>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+        </template>
+
+        <template>
+            <div class="feut-pagination">
+                <el-pagination
+                    background
+                    prev-text='上一页'
+                    next-text='下一页'
+                    :total="page.total"
+                    :current-page="page.index"
+                    :page-size.sync="page.size"
+                    :pager-count="page.count"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    layout="total, sizes, prev, pager, next, jumper"/>
+            </div>
+        </template>
+
     </div>
 </template>
 
@@ -65,7 +47,7 @@
 export default {
     data() {
         return {
-            TableData: [
+            tableData: [
                 {
                     id: 1,
                     tableName: '卡号挂失',
@@ -220,13 +202,16 @@ export default {
                 },
             ],
             loading: false,
-            pagTable: {
+            page: {
                 total: 100,
                 size: 10,
-                page: 2,
+                index: 1,
                 count: 5,
             }
         }
+    },
+    created() {
+        this.handleList()
     },
     methods: {
         handleFilterChange () {
@@ -235,17 +220,56 @@ export default {
         handleAllSelectionChange () {
 
         },
-        handleSizeChange () {
-
+        handleSizeChange (size) {
+            this.page.size = size
+            this.page.index = 1
+            this.handleList()
         },
-        handleCurrentChange () {
-
+        handleCurrentChange (index) {
+            this.page.index = index
+            this.handleList()
         },
         handleAdd () {
 
         },
         handleDelete () {
 
+        },
+        mixin_filterParams(obj) {
+            var _newPar = {};
+            for (var key in obj) {
+                if ((obj[key] === 0 || obj[key] === false || obj[key]) && obj[key].toString().replace(/(^\s*)|(\s*$)/g, '') !== '') {
+                    _newPar[key] = obj[key];
+                }
+            }
+            return _newPar;
+        },
+        getParams() {
+            let page_index = this.page.index
+            let page_size = this.page.size
+            
+            let params = { page_index, page_size }
+            return this.mixin_filterParams(params)
+        },
+        // 显示 table
+        handleList () {
+            let params = this.getParams()
+            this.$api.api_access_file(params)
+            .then(res => {
+                if (res.data.code) {
+                    if(res.data.data.length) {
+                        res.data.data[res.data.data.length-1].children = [
+                            {
+                                id: '123',
+                                name: '123'
+                            }
+                        ]
+                    }
+
+                    this.tableData  =   res.data.data
+                    this.page.total =   res.data.total || 0
+                }
+            }) .catch(error => console.log(error))
         },
         
     }

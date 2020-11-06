@@ -2,10 +2,11 @@
     <div>
         <file1
             :filesize="30"
+            v-if="fileList.length"
             :btnName="btnlabel"
             :otherFileList="fileList"
+            @getFileList="getFileList($event)"
             :filetype="config.fileUploadPromise"
-            @getFileList="getFileList($event,attachType)"
             :filetypeMsg="config.fileUploadPromise.toString()"
         />
     </div>
@@ -38,8 +39,49 @@ export default {
             btnlabel: '上传文件'
         }
     },
+    created() {
+        this.handleFileList()
+    },
     methods: {
         getFileList() {
+        },
+        arrayBufferToBase64 (buffer) {
+            var binary = ''
+            var bytes = new Uint8Array(buffer)
+            var len = bytes.byteLength
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i])
+            }
+            return window.btoa(binary)
+        },
+        handleFileList() {
+            let page_index = 1
+            let page_size = 1
+            
+            let params = { page_index, page_size }
+            this.$api.api_access_file(params)
+            .then(res => {
+                if (res.data.code) {
+                    this.getFiles(res.data.data)
+                }
+            }) .catch(error => console.log(error))
+        },
+        getFiles(dataValue) {
+            debugger
+            dataValue = dataValue[0].name
+            this.$api.api_download_file({filename: dataValue})
+            .then(res => {
+                let DATA = res.data.data
+                let type  = DATA.type
+                let transferBuffer = this.arrayBufferToBase64(DATA.data)
+                let src = 'data:image/jpeg;base64,' + transferBuffer
+                let fileList = []
+                fileList.push({
+                    name: null,
+                    url:  src
+                })
+                this.fileList = fileList
+            })
         }
     }
 }

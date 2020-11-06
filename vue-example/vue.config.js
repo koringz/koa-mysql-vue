@@ -134,6 +134,18 @@ module.exports = {
           'host': '0.0.0.0'
         }
       },
+      '/file': {
+        target: 'http://192.168.198.107:3579/file',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite:{
+          '^/file':''
+        },
+        headers: {
+          'Referer':'localhost:8001',
+          'host': '0.0.0.0'
+        }
+      },
     },
   },
   pluginOptions: {

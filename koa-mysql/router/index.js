@@ -7,8 +7,11 @@ const validatorData = require('./../util/validator.js')
 // 路由权限控制
 const { sign } = require('jsonwebtoken')
 const { jwt_secret } = require('./../config/secret.js')
+// 文件事件
 const fs = require('fs')
-  
+// 文件类型
+const mime = require('mime-types');
+const path = require('path')
 
 // user 查找数据库
 const private_methods_userlist =  (snipet, data) => {
@@ -292,22 +295,132 @@ module.exports.api_detail_list = async (ctx, next) => {
 
 // 上传文件
 module.exports.api_upload = async (ctx, next) => {
-	console.log(ctx.file)
-	console.log(ctx.req)
-	// let file = await ctx.request.files.file
-	// //创建可读流
-	// let read = await fs.createReadStream(file.path)
-	// // 设置文件保存路径
-	// let imgPath = await path.join(__dirname, `../public/${file.name}`)
-	// // 创建可写流
-	// let upStream = await fs.createWriteStream(imgPath)
-	// // 可读流通过管道写入可写流
-    // await read.pipe(upStream)
-	
-    ctx.body =  {
-        message: '上传成功',
-        data: ctx.request.files.file,
-        data1: `${ctx.request.files.file.name}`
+	// console.log('ctx.request.file', ctx.request.file);
+    // console.log('ctx.file', ctx.file);
+	// console.log('ctx.request.body', ctx.request.body);
+	let params = {}
+
+	let files = ctx.request.file
+	let filename = files.filename
+	let path = files.path
+	let mimetype = files.mimetype
+	let size = files.size
+
+	var snipet = `insert into filelist ( name, path, type, size) values ("${filename}", "${path}", "${mimetype}", "${size}")`;
+	console.log('snipet=',snipet)
+	let getUserDataList = await private_methods_userlist(snipet)
+	if(getUserDataList) {
+		params = {
+			code: 1,
+			data: getUserDataList,
+			message: '成功',
+		}
 	}
+	else {
+		params = {
+			code: 0,
+			data: null,
+		}
+	}
+
+    ctx.body = params
+    next()
+}
+
+
+// 图片列表
+module.exports.api_access_file = async (ctx, next) => {
+	let _query = ctx.request.query
+	console.log('_query==', _query)
+	let _validation_data = {
+		page_index: "string",
+		page_size: "string",
+	}
+	// 进行验证get数据
+	let valid = await validatorData.ajv_validator_userform(_query, _validation_data)
+	let page_index, page_size;
+	if(valid) {
+		page_index = Number(_query.page_index)
+		page_size = Number(_query.page_size) < 10 ? 10 : Number(_query.page_size) 
+	}
+
+	console.log('valid=',valid)
+	// 进行验证post数据
+	let params = {}
+	if(!valid) {
+		params = {
+			code: 0,
+			data: null,
+			success: valid
+		}
+	}
+	else {
+		var snipet = `select * from filelist limit ${page_size * (page_index-1)},${page_size}`;
+		console.log('snipet=',snipet)
+		let getUserDataList = await private_methods_userlist(snipet)
+		
+		var lastSnipet = 'select id from filelist where id>1 order by id desc limit 1;'
+		let getLastCount = await private_methods_userlist(lastSnipet, _query)
+		console.log('getLastCount',getLastCount)
+		
+		let len = getLastCount[0].id
+		if(getUserDataList) {
+			params = {
+				code: 1,
+				success: valid,
+				message: '成功',
+				data: getUserDataList.reverse(),
+				total: len
+			}
+		}
+	}
+	
+    ctx.body = params
+    next()
+}
+
+
+// 读取图片文件
+module.exports.api_download_file = async (ctx, next) => {
+	let _query = ctx.request.query
+	console.log('_query==', _query)
+	let _validation_data = {
+		filename: "string",
+	}
+	let valid = await validatorData.ajv_validator_userform(_query, _validation_data)
+	console.log('valid=',valid)
+
+	let params = {}
+	if(!valid) {
+		params = {
+			code: 0,
+			data: null,
+			success: valid
+		}
+	}
+	else {
+		//图片目录
+		let filePath = path.join(__dirname, '../public_files')
+		let file = null;
+		try {
+			file = fs.readFileSync(filePath)
+		} catch (error) {
+			//如果服务器不存在请求的图片，返回默认图片
+			//默认图片地址
+			filePath = path.join(__dirname, `../public_files/${_query.filename}`)
+			file = fs.readFileSync(filePath); //读取文件       
+		}
+		//读取图片文件类型
+		let mimeType = mime.lookup(filePath)
+		//设置类型
+		ctx.set('content-type', mimeType)
+		params =  {
+			code: 1,
+			data: file,
+			message: '成功',
+		}
+	}
+
+	ctx.body = params
     next()
 }
