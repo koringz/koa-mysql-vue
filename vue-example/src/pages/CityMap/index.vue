@@ -3,8 +3,8 @@
     <div
       style=" width: 100%; height: 100%"
       ref="echarts"
-      id="map-chart-div"
-      @click="isDefaultCursor"
+      id="map-chart"
+      @click="handleCursor"
     ></div>
   </div>
 </template>
@@ -13,14 +13,8 @@
 import echarts from 'echarts'
 import 'components/CityMap/worldNew.js'
 import { wroldXYAll, wroldNameAll, nameMapData } from 'components/CityMap/mapXY.js'
-// import { mapGetters } from 'vuex'
 export default {
-  // props: {
-  //   mapData: Array,
-  //   required: true
-  // },
   computed:{
-    // ...mapGetters(['navIsOpen'])
   },
   data() {
     return {
@@ -38,27 +32,18 @@ export default {
     window.removeEventListener('resize', this.resizeEcharts)
   },
   watch: {
-    // lineData(value, news) {
-    //   this.getChart()
-    // },
-    // navIsOpen(value, news) {
-    //   setTimeout(()=>{
-    //     this.resizeEcharts()
-    //   },1000)
-    // },
   },
   methods: {
     resizeEcharts() {
        this.myChart.resize()
     },
     recRrovince(val) {
-      // this.$emit('getAllData',this.province)
       console.log(val)
     },
-    isDefaultCursor() {
+    handleCursor() {
       //地图空白处清空
       let _this = this
-      let mapCanvas = document.querySelector('#map-chart-div').children[0]
+      let mapCanvas = document.querySelector('#map-chart').children[0]
       let cursorStyle = mapCanvas.style.cursor
       if (cursorStyle == 'default') {
         this.myChart.dispatchAction({

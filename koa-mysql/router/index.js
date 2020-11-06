@@ -7,7 +7,8 @@ const validatorData = require('./../util/validator.js')
 // 路由权限控制
 const { sign } = require('jsonwebtoken')
 const { jwt_secret } = require('./../config/secret.js')
-
+const fs = require('fs')
+  
 
 // user 查找数据库
 const private_methods_userlist =  (snipet, data) => {
@@ -286,5 +287,27 @@ module.exports.api_detail_list = async (ctx, next) => {
 	}
 	
     ctx.body = params
+    next()
+}
+
+// 上传文件
+module.exports.api_upload = async (ctx, next) => {
+	console.log(ctx.file)
+	console.log(ctx.req)
+	// let file = await ctx.request.files.file
+	// //创建可读流
+	// let read = await fs.createReadStream(file.path)
+	// // 设置文件保存路径
+	// let imgPath = await path.join(__dirname, `../public/${file.name}`)
+	// // 创建可写流
+	// let upStream = await fs.createWriteStream(imgPath)
+	// // 可读流通过管道写入可写流
+    // await read.pipe(upStream)
+	
+    ctx.body =  {
+        message: '上传成功',
+        data: ctx.request.files.file,
+        data1: `${ctx.request.files.file.name}`
+	}
     next()
 }
