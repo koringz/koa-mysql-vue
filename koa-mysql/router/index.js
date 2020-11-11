@@ -6,11 +6,12 @@ const parseData = require('./postData.js')
 const validatorData = require('./../util/validator.js')
 // 路由权限控制
 const { sign } = require('jsonwebtoken')
+
+// 文件类型
+const mime = require('mime-types')
 const { jwt_secret } = require('./../config/secret.js')
 // 文件事件
 const fs = require('fs')
-// 文件类型
-const mime = require('mime-types');
 const path = require('path')
 
 // user 查找数据库
@@ -327,9 +328,16 @@ module.exports.api_upload = async (ctx, next) => {
     next()
 }
 
-
+let n = 1
 // 图片列表
 module.exports.api_access_file = async (ctx, next) => {
+	let getsess = ctx.session.views
+	console.log('sess=',getsess)
+
+	// 设置 session id
+	ctx.session.views  = ++n
+	ctx.req.session =  ctx.session
+
 	let _query = ctx.request.query
 	console.log('_query==', _query)
 	let _validation_data = {
@@ -344,7 +352,6 @@ module.exports.api_access_file = async (ctx, next) => {
 		page_size = Number(_query.page_size) < 10 ? 10 : Number(_query.page_size) 
 	}
 
-	console.log('valid=',valid)
 	// 进行验证post数据
 	let params = {}
 	if(!valid) {
@@ -353,6 +360,7 @@ module.exports.api_access_file = async (ctx, next) => {
 			data: null,
 			success: valid
 		}
+		next()
 	}
 	else {
 		var snipet = `select * from filelist limit ${page_size * (page_index-1)},${page_size}`;
@@ -376,7 +384,6 @@ module.exports.api_access_file = async (ctx, next) => {
 	}
 	
     ctx.body = params
-    next()
 }
 
 
@@ -426,9 +433,7 @@ module.exports.api_download_file = async (ctx, next) => {
 }
 
 /*
-
 	const key = `${SETTING_REDIS_KEY_PREFIX}_userlist_${JSON.stringify()}`
 	console.log('key==',key)
 	const getredisDATA = await getRedis(key)
-
 */

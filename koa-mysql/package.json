@@ -26,7 +26,8 @@
     "mysql": "mysqljs/mysql",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "uid2": "^0.0.3"
   },
   "devDependencies": {
     "mocha": "^8.1.3",

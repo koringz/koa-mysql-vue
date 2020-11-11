@@ -1,58 +1,61 @@
-const { json } = require('co-body')
-const redis = require('redis')
-
-// 配置
-let REDIS_CONF = {
-    port: 6379,
-    host: '127.0.0.1',
-    password: '123456'
+// 加上前缀
+function getRedisSessionId(sessionId) {
+    return `ssid:${sessionId}`
 }
 
-// 创建客户端
-const redisClient = redis.createClient({
-    host: REDIS_CONF.host,
-    port: REDIS_CONF.port,
-})
-
-redisClient.on('error', err => {
-    console.log('Redis err')
-    console.log(err)
-})
-
-// 获得key value
-function getRedis (key) {
-    return new Promise((resolve, reject) => {
-        redisClient.get(key , (err, val) => {
-            if(err) {
-                reject(err)
-                return
-            }
-            else if(val == null) {
-                resolve(null)
-                return
-            }
-
-            try{
-                resolve(JSON.parse(val))
-            }
-            catch{
-                reject(val)
-            }
-        })
-    })
-} 
-
-// 设置key value
-function setRedis (key, val, timeout = 60 * 60) {
-    if(typeof val =='object') {
-        val = JSON.stringify(val)
+class RedisSessionStore {
+    constructor(client) {
+        // node.js的redis-client
+        this.client = client
     }
-    redisClient.set(key, val)
-    redisClient.expire(key, timeout)
+
+    // 获取redis中存储的session数据
+    async get(sessionId) {
+       // console.log(" get  session  "+sessionId)
+        const id = getRedisSessionId(sessionId)
+        // 对应命令行操作redis的get指令，获取value
+        const data = await this.client.get(id)
+        if (!data) {
+            return null
+        }
+        try {
+            const result = JSON.parse(data)
+            return result
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    // 在redis中存储session数据
+    async set(sessionId, session, ttl /** 过期时间 */) {
+      //  console.log("set  session  "+sessionId)
+        const id = getRedisSessionId(sessionId)
+        let ttlSecond
+        if (typeof ttl === 'number') {
+            // 毫秒转秒
+            ttlSecond = Math.ceil(ttl / 1000)
+        }
+        try {
+            const sessionStr = JSON.stringify(session)
+            // 根据是否有过期时间 调用不同的api
+            if (ttl) {
+                // set with expire
+                await this.client.setex(id, ttlSecond, sessionStr)
+            } else {
+                await this.client.set(id, sessionStr)
+            }
+        } catch (error) {
+            console.error('error: ', error);
+        }
+    }
+
+    // 从resid中删除某个session
+    // 在koa中 设置ctx.session = null时，会调用这个方法
+    async destroy(sessionId) {
+      //  console.log("destroy  session  "+sessionId)
+        const id = getRedisSessionId(sessionId)
+        await this.client.del(id)
+    }
 }
 
-
-module.exports = {
-    setRedis,
-    getRedis
-}
+module.exports = RedisSessionStore

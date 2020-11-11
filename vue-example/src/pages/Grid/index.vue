@@ -44,8 +44,8 @@
                     <el-table-column type="selection" width="55" align='center'></el-table-column>
                     <el-table-column show-overflow-tooltip min-width="100px" prop="name" label="名称"></el-table-column>
                     <el-table-column show-overflow-tooltip min-width="100px" sortable prop="code" label="账号"></el-table-column>
-                    <el-table-column show-overflow-tooltip min-width="100px" sortable prop="tableBank" label="银行"></el-table-column>
-                    <el-table-column show-overflow-tooltip min-width="100px" prop="tablePeople" label="开户人"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="100px" prop="type" label="类型" width="100"></el-table-column>
+                    <el-table-column show-overflow-tooltip min-width="200px" sortable prop="description" label="描述" ></el-table-column>
                     <el-table-column show-overflow-tooltip label="状态">
                         <template slot-scope="scope">
                             <el-switch :value="scope.row.tableStatus" @change="switchStatus(scope.row, scope.$index)"></el-switch>
