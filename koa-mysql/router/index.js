@@ -424,3 +424,11 @@ module.exports.api_download_file = async (ctx, next) => {
 	ctx.body = params
     next()
 }
+
+/*
+
+	const key = `${SETTING_REDIS_KEY_PREFIX}_userlist_${JSON.stringify()}`
+	console.log('key==',key)
+	const getredisDATA = await getRedis(key)
+
+*/

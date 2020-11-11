@@ -67,7 +67,6 @@ export default {
             }) .catch(error => console.log(error))
         },
         getFiles(dataValue) {
-            debugger
             dataValue = dataValue[0].name
             this.$api.api_download_file({filename: dataValue})
             .then(res => {

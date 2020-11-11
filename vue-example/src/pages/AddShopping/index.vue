@@ -122,8 +122,6 @@ export default {
               }
 
               let params = {...this.setFormData, ...this.pakage}
-
-              debugger
             }
           })
         },
@@ -159,7 +157,6 @@ export default {
           }      
         },
         handleError(err, file, fileList) {
-          debugger
           this.$message.error('上传失败', + err)
         },
         handleExceed(files, fileList) {
