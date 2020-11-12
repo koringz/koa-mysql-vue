@@ -9,7 +9,17 @@
 export default {
     methods: {
         loginout() {
-            this.$router.push({name: 'login' })
+            this.$api.api_logout()
+            .then(res => {
+                debugger
+                if(res.data.code) {
+                    this.$message.success(res.data.message)
+                    this.$router.push({name: 'login' })
+                }
+                else{
+                    this.$message.error(res.data.message)
+                }
+            })
         }
     }
 }

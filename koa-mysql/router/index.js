@@ -7,6 +7,9 @@ const validatorData = require('./../util/validator.js')
 // 路由权限控制
 const { sign } = require('jsonwebtoken')
 
+// 响应输出结果
+const helper = require('./../lib/helper.js')
+
 // 文件类型
 const mime = require('mime-types')
 const { jwt_secret } = require('./../config/secret.js')
@@ -14,6 +17,7 @@ const { jwt_secret } = require('./../config/secret.js')
 const fs = require('fs')
 const path = require('path')
 
+let n = 1
 // user 查找数据库
 const private_methods_userlist =  (snipet, data) => {
 	console.log('private_methods_userlist==',data)
@@ -29,6 +33,10 @@ const private_methods_userlist =  (snipet, data) => {
 
 // 登录
 module.exports.api_user_login = async (ctx, next) => {
+	ctx.session.views  = ++n
+	ctx.req.session =  ctx.session
+	console.log('set sess=',ctx.req.session)
+
 	let getParseData = await parseData.postData(ctx)
 	let _validation_data = {
 		name: "string",
@@ -41,11 +49,7 @@ module.exports.api_user_login = async (ctx, next) => {
 
 	let params = {}
 	if(!valid) {
-		params = {
-			code: 0,
-			data: '用户名或密码不正确',
-			success: valid
-		}
+		params = helper.error('用户名或密码不正确')
 	}
 	else {
 		var snipet = `select * from user_login where name="${getParseData.name}"`;
@@ -57,21 +61,13 @@ module.exports.api_user_login = async (ctx, next) => {
 		if(!len) {
 			// 这个用户
 			// 是否查询到
-			params = {
-				code: 0,
-				success: valid,
-				data: '用户名或密码不正确',
-			}
+			params = helper.error('用户名或密码不正确')
 		}
 		else {
 			console.log('getParseData.pass 0=',getParseData.pass)
 			// 密码不相同
 			if(getUserDataList[0].pass !== getParseData.pass) {
-				params = {
-					code: 0,
-					data: '用户名或密码不正确',
-					success: valid
-				}
+				params = helper.error('用户名或密码不正确')
 			}
 			else {
 				const token = sign({ id: getParseData.id, name: getParseData.name }, jwt_secret, { expiresIn: '24h'  })
@@ -85,20 +81,36 @@ module.exports.api_user_login = async (ctx, next) => {
 				// let token = jwt.encode(payload, setJwtSecret)
 
 				delete getUserDataList[0].pass
-				params = {
-					code: 1,
-					data: {
-						token: token,
-						userinfo: getUserDataList[0],
-					},
-					message: '成功',
-					success: valid,
-				}
+				params = helper.json({
+					token: token,
+					userinfo: getUserDataList[0],
+				},'成功')
 			}
 		}
 	}
     ctx.body = params
     next()
+}
+
+// 退出登录
+module.exports.api_user_logout = async (ctx, next) => {
+	console.log('ctx.session=',ctx.session)
+	console.log('ctx.req.session=',ctx.req.session)
+	if(ctx.session) {
+		ctx.session = null
+	}
+	ctx.req.session =  ctx.session
+	console.log('ctx.session 2=',ctx.session)
+	console.log('ctx.req.session 2=',ctx.req.session)
+
+	let params = {
+		code: 1,
+		data: null,
+		message: '成功',
+		success: true
+	}
+
+	ctx.body = params
 }
 
 // 用户列表接口方法
@@ -125,6 +137,7 @@ module.exports.api_userlist = async (ctx, next) => {
 		params = {
 			code: 0,
 			data: null,
+			message: null,
 			success: valid
 		}
 	}
@@ -328,15 +341,14 @@ module.exports.api_upload = async (ctx, next) => {
     next()
 }
 
-let n = 1
 // 图片列表
 module.exports.api_access_file = async (ctx, next) => {
-	let getsess = ctx.session.views
-	console.log('sess=',getsess)
+	let getsess = ctx.session.ssid
+	console.log('get sess=',getsess)
 
-	// 设置 session id
-	ctx.session.views  = ++n
-	ctx.req.session =  ctx.session
+	if(getsess) {
+		
+	}
 
 	let _query = ctx.request.query
 	console.log('_query==', _query)
@@ -378,8 +390,13 @@ module.exports.api_access_file = async (ctx, next) => {
 				success: valid,
 				message: '成功',
 				data: getUserDataList.reverse(),
-				total: len
+				total: len,
 			}
+			
+			// 设置 session id
+			ctx.session.ssid  = ++n
+			console.log('set sess=',ctx.req.session)
+			
 		}
 	}
 	

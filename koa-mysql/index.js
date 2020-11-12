@@ -94,6 +94,7 @@ const redis_CONFIG = {
 app.use(session(redis_CONFIG, app))
 
 prefixRouter.post('/login', xhr.api_user_login)
+prefixRouter.post('/logout', xhr.api_user_logout)
 prefixRouter.post('/upload', upload.single('file'), xhr.api_upload)
 prefixRouter.get('/accessfile', xhr.api_access_file)
 prefixRouter.get('/downloadfile', xhr.api_download_file)

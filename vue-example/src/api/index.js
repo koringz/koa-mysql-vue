@@ -1,6 +1,7 @@
 import xhr_axios from '@/utils/axios/index.js';
 export default {
     api_login: (options) => xhr_axios.post('/api/login', options, 'json'), // 登录
+    api_logout: (options) => xhr_axios.post('/api/logout', options, 'json'), // 退出
     api_list: (options) => xhr_axios.get('/api/list', options, 'json'), // 用户信息
     api_user_list: (options) => xhr_axios.get('/api/userlist', options, 'json'), // 用户列表
     api_user_form: (options) => xhr_axios.post('/api/userform', options, 'json'), // 用户表单

@@ -12,7 +12,7 @@
                 </el-menu-item>
                 <el-menu-item index="/usertable">
                     <i class="el-icon-user"></i>
-                    <span slot="title">用户表</span>
+                    <span slot="title">图片列表</span>
                 </el-menu-item>
                 <el-menu-item index="/viewimage">
                     <i class="el-icon-picture-outline"></i>
