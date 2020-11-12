@@ -8,8 +8,8 @@ const validatorData = require('./../util/validator.js')
 const { sign } = require('jsonwebtoken')
 
 // 响应输出结果
-const helper = require('./../lib/helper.js')
-
+const Resolve = require('./../lib/helper.js')
+const helper = new Resolve() 
 // 文件类型
 const mime = require('mime-types')
 const { jwt_secret } = require('./../config/secret.js')
@@ -17,6 +17,7 @@ const { jwt_secret } = require('./../config/secret.js')
 const fs = require('fs')
 const path = require('path')
 
+console.log(helper.json)
 let n = 1
 // user 查找数据库
 const private_methods_userlist =  (snipet, data) => {
