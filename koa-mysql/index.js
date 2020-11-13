@@ -50,7 +50,7 @@ app.use(function(ctx, next){
 });
 
 app.use(jwt({secret: jwt_secret}).unless({
-    path:[/^[\/api\/login|\/file]/]
+    path:[/^\/api\/login/]
 }))
 
 // redis储存
@@ -71,6 +71,9 @@ redisClient.on("message", (channel, message) => {
     console.log("Receive message %s from channel %s", message, channel);
 });
 const stream = redisClient.scanStream();
+stream.on("client", (data) => {
+    console.log("client keys have been visited=", data);
+});
 stream.on("data", (resultKeys) => {
     // `resultKeys` is an array of strings representing key names.
     // Note that resultKeys may contain 0 keys, and that it will sometimes
@@ -84,7 +87,7 @@ stream.on("end", () => {
 });
 
 // 给session加密
-app.keys = ['keys', 'keykeys'];
+app.keys = ['keys zsg'];
 const redis_CONFIG = {
     // 浏览器 cookie 里的key
     key: 'sid',

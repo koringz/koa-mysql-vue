@@ -16,6 +16,7 @@ const { jwt_secret } = require('./../config/secret.js')
 // 文件事件
 const fs = require('fs')
 const path = require('path')
+const { Console } = require('console')
 
 console.log(helper.json)
 let n = 1
@@ -95,15 +96,16 @@ module.exports.api_user_login = async (ctx, next) => {
 
 // 退出登录
 module.exports.api_user_logout = async (ctx, next) => {
-	console.log('ctx.session=',ctx.session)
-	console.log('ctx.req.session=',ctx.req.session)
-	if(ctx.session) {
-		ctx.session = null
-	}
-	ctx.req.session =  ctx.session
-	console.log('ctx.session 2=',ctx.session)
-	console.log('ctx.req.session 2=',ctx.req.session)
+	// redis 储存客户端 token
+	// 禁用未过期 token 令牌
+	ctx.session.auth = ctx.req.headers.authorization
 
+	// 注销 redis储存 sessionId
+	// if(ctx.session) {
+	// 	ctx.session = null
+	// }
+	ctx.req.session =  ctx.session
+	
 	let params = {
 		code: 1,
 		data: null,
@@ -344,11 +346,24 @@ module.exports.api_upload = async (ctx, next) => {
 
 // 图片列表
 module.exports.api_access_file = async (ctx, next) => {
+	let params = {}
+
 	let getsess = ctx.session.ssid
 	console.log('get sess=',getsess)
 
 	if(getsess) {
 		
+	}
+
+	// 查询 redis 是否存在相同 token
+	const isLogout = ctx.session.auth === ctx.req.headers.authorization
+	if(isLogout) {
+		// 设置无权限
+		ctx.status = 401
+		console.log('session 存在已经退出登录 token')
+		params = helper.error('此用户未登录')
+		ctx.body = params
+		return
 	}
 
 	let _query = ctx.request.query
@@ -366,7 +381,6 @@ module.exports.api_access_file = async (ctx, next) => {
 	}
 
 	// 进行验证post数据
-	let params = {}
 	if(!valid) {
 		params = {
 			code: 0,
@@ -380,7 +394,7 @@ module.exports.api_access_file = async (ctx, next) => {
 		console.log('snipet=',snipet)
 		let getUserDataList = await private_methods_userlist(snipet)
 		
-		var lastSnipet = 'select id from filelist where id>1 order by id desc limit 1;'
+		var lastSnipet = 'select id from filelist where id>0 limit 1;'
 		let getLastCount = await private_methods_userlist(lastSnipet, _query)
 		console.log('getLastCount',getLastCount)
 		

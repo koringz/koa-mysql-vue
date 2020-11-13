@@ -11,8 +11,8 @@ export default {
         loginout() {
             this.$api.api_logout()
             .then(res => {
-                debugger
                 if(res.data.code) {
+                    // sessionStorage.token = null
                     this.$message.success(res.data.message)
                     this.$router.push({name: 'login' })
                 }
