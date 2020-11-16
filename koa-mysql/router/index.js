@@ -118,6 +118,19 @@ module.exports.api_user_logout = async (ctx, next) => {
 
 // 用户列表接口方法
 module.exports.api_userlist = async (ctx, next) => {
+	let params = {}
+	// 查询 redis 是否存在相同 token
+	const isLogout = ctx.session.auth === ctx.req.headers.authorization
+	if(isLogout) {
+		// 设置无权限
+		ctx.status = 401
+		console.log('session 存在已经退出登录 token')
+		params = helper.error('此用户未登录')
+		ctx.body = params
+		return
+	}
+
+
 	let _query = ctx.request.query
 	console.log('_query==', _query)
 	let _validation_data = {
@@ -135,7 +148,6 @@ module.exports.api_userlist = async (ctx, next) => {
 		updated_times = _query.updated_times
 	}
 
-	let params = {}
 	if(!valid) {
 		params = {
 			code: 0,
