@@ -1,52 +1,94 @@
 {
-  "name": "front-ui-template",
+  "name": "qingdao-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-dev": "vue-cli-service build --mode dev",
-    "build-prod": "vue-cli-service build --mode prod",
-    "build-test": "vue-cli-service build --mode test",
-    "a-test": "browser-sync start --server --files dist/index.html",
+    "test-build": "vue-cli-service build --mode testing",
+    "dev-build": "vue-cli-service build --mode development",
+    "prod-build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@antv/g6": "^3.5.10",
-    "animate.css": "^4.1.0",
+    "@antv/g6": "^4.3.2",
+    "ajax": "^0.0.4",
+    "animate.css": "^4.1.1",
     "axios": "^0.21.0",
     "babel-polyfill": "^6.26.0",
-    "compression-webpack-plugin": "^4.0.0",
+    "clipboard": "^2.0.8",
+    "compression-webpack-plugin": "^8.0.0",
     "core-js": "^3.6.5",
+    "css-color-function": "^1.3.3",
     "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
-    "image-webpack-loader": "^6.0.0",
-    "node-sass": "^4.14.1",
+    "image-webpack-loader": "^7.0.1",
+    "jquery": "^3.6.0",
+    "js-file-download": "^0.4.12",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.0",
     "prerender-spa-plugin": "^3.4.0",
-    "qs": "^6.9.4",
-    "sass-loader": "^9.0.2",
-    "scss-loader": "^0.0.1",
-    "style-resources-loader": "^1.3.3",
+    "qs": "^6.10.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
+    "v-viewer": "^1.5.1",
     "vue": "^2.6.11",
-    "vue-router": "^3.3.2",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0",
+    "vuex-persist": "^3.1.3",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-service": "~4.4.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "clipboard": "^2.0.6",
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.14.1",
     "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
-    "jquery": "^3.5.1",
-    "v-viewer": "^1.5.1",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-css-wrap": "^0.1.2",
+    "histore": "^1.0.0",
+    "lint-staged": "^9.5.0",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.2",
+    "vue-awesome-swiper": "^3.1.3",
     "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "@vue/prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

@@ -21,5 +21,17 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style scoped>
+.feut{
+  position: relative;
+  margin-left: 238px;
+  height: 100%;
+  overflow: scroll;
+}
+.feut > div{
+  /* min-height: calc(100% - 30px); */
+  /* margin: 30px 0 0 30px; */
+  padding: 30px 20px;
+  /* background: #1e2f4e; */
+}
+</style>>

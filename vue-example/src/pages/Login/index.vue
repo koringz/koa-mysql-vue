@@ -72,18 +72,18 @@
                 });
             },
             login() {
-                let username = this.ruleForm.name
-                let password = this.ruleForm.pass
-                // 本地登录
-                this.$api.api_login(this.ruleForm)
-                .then(res => {
-                    if(res.data.code) {
-                        sessionStorage.token = res.data.data.token
-                        this.$message.success(res.data.message)
+                // let username = this.ruleForm.name
+                // let password = this.ruleForm.pass
+                // // 本地登录
+                // this.$api.api_login(this.ruleForm)
+                // .then(res => {
+                //     if(res.data.code) {
+                //         sessionStorage.token = res.data.data.token
+                //         this.$message.success(res.data.message)
                         this.$router.push({ name:  'grid' })
-                    }
-                    else this.$message.info(res.data.data)
-                })
+                //     }
+                //     else this.$message.info(res.data.data)
+                // })
             },
         }
     }

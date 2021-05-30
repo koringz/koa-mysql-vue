@@ -75,15 +75,15 @@ module.exports = {
       );
 
       // gzip压缩
-      plugins.push(
-        new CompressionWebpackPlugin({
-          filename: "[path].gz[query]",
-          algorithm: "gzip",
-          test: productionGzipExtensions,
-          threshold: 10240,
-          minRatio: 0.8
-        })
-      );
+      // plugins.push(
+      //   new CompressionWebpackPlugin({
+      //     filename: "[path].gz[query]",
+      //     algorithm: "gzip",
+      //     test: productionGzipExtensions,
+      //     threshold: 10240,
+      //     minRatio: 0.8
+      //   })
+      // );
 
     }
 
@@ -113,7 +113,13 @@ module.exports = {
           gifsicle: { interlaced: false }
           // webp: { quality: 75 }
         });
-
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // prependData: `@import "./src/assets/style/theme";`
+      }
+    }
   },
   devServer: {
     hotOnly: prodid? false: true ,
@@ -123,37 +129,37 @@ module.exports = {
     // open: true,
     proxy: {
       '/api': {
-        target: 'http://192.168.198.107:3579/api',
+        target: 'http://127.0.0.1:3579/api',
         changeOrigin: true,
         secure: false,
         pathRewrite:{
           '^/api':''
         },
         headers: {
-          'Referer':'localhost:8001',
+          // 'Referer':'localhost:8001',
           'host': '0.0.0.0'
         }
       },
       '/file': {
-        target: 'http://192.168.198.107:3579/file',
+        target: 'http://127.0.0.1:3579/file',
         changeOrigin: true,
         secure: false,
         pathRewrite:{
           '^/file':''
         },
         headers: {
-          'Referer':'localhost:8001',
+          // 'Referer':'localhost:8001',
           'host': '0.0.0.0'
         }
       },
     },
   },
   pluginOptions: {
-    'style-resources-loader': {
-      preProcessor: 'scss',
-      patterns: [
-        // path.resolve(__dirname, './src/assets/scss/_common.scss'),
-      ],
-    }
+    // 'style-resources-loader': {
+    //   preProcessor: 'scss',
+    //   patterns: [
+    //     path.resolve(__dirname, './src/assets/scss/_common.scss'),
+    //   ],
+    // }
   }
 }

@@ -80,10 +80,10 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .feut-menu{
     position: absolute;
-    width: 280px;
+    width: 238px;
     top: 0;
     bottom: 0;
     overflow: auto;
@@ -93,21 +93,33 @@
     height: 100%;
     width: 100%;
     overflow: auto;
-    border-right-color: #363f77;
-    background-color: #1e2f4e !important;
+    /* border-right-color: #363f77; */
+    border-right: none;
+    background-color: #16203d !important;
 }
 .el-menu-vertical-demo{
     height: 100%;
 }
+.el-menu-item{
+    height: 44px;
+    line-height: 44px;
+}
 .el-menu-item i,
 .el-menu-item{
-    color: #8ea6ca !important;
-    font-size: 14px;
-    font-weight: 600;
+    color: #9faebf  !important;
+    font-size: 12px;
+    font-weight: bold;
+}
+.el-menu-item *{
+    vertical-align: unset;
 }
 .el-menu-item:hover,
 .el-menu-item.is-active:hover,
 .el-menu-item.is-active{
-    background-color: #011627 !important;
+    color: #92d000 !important;
+    background-color: transparent !important;
+    i{
+        color: #92d000 !important;
+    }
 }
 </style>

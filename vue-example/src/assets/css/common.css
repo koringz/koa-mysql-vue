@@ -1,9 +1,6 @@
-.feut{
-    margin-left: 280px;
-    padding: 24px;
-}
+
 .operation-category{
-    padding-top: 20px;
+    margin-bottom: 20px;
 }
 .mb20{
     margin-bottom: 20px;
@@ -16,23 +13,25 @@
     height: 48px;
     line-height: 48px;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
 }
 /* 表单 */
 .el-form-item__label{
+    font-size: 12px;
     color: #d5d6d0;
 }
 .el-textarea__inner,
 .el-range-input,
 .el-input__inner{
+    font-size: 12px;
     color: #fff;
-    border-color: #4062a0;
-    background-color: #0d1623;
+    border-color: transparent;
+    background-color: #586b9275;
 }
 .el-textarea__inner:hover,
 .el-range-input:hover,
 .el-input__inner:hover{
-    border-color: #0d1623 !important;
+    border-color: transparent !important;
 }
 
 /* 列表 */
@@ -54,21 +53,17 @@
     border-bottom: 1px solid #405c8e !important;
 }
 .el-table .el-table__header th{
-    background-color: #2a436f;
+    /* background-color: #2a436f; */
     color: #fff;
 }
 .el-table::before,
 .el-table tr{
-    background-color: #141f2f;
+    background-color: transparent;
     border-bottom: 1px solid #405c8e !important;
 }
 .el-table tr.current-row td,
 .el-table tr:hover td{
     background-color: #1e2f4e !important;
-}
-.el-table td .el-button{
-    padding: 2px 3px;
-    text-align: center;
 }
 .el-table th,
 .el-table__empty-block{
@@ -106,7 +101,7 @@
 .el-pagination__editor.el-input .el-input__inner,
 .el-pagination .el-select .el-input .el-input__inner,
 .el-pagination span:not([class*=suffix]){
-    color: #8cb1e6 !important;
+    color: #fff !important;
     height: 32px;
     line-height: 32px;
 }
@@ -127,12 +122,7 @@
     line-height: 26px;
 }
 
-/* checkbox */
-.el-checkbox__inner{
-    background-color: #405c8e;
-}
-/* switch */
-.el-switch__core{
-    background-color: #405c8e;
-    border-color: #405c8e;
+.el-button{
+    border: none;
+    font-size: 12px;
 }

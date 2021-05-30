@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <transition>
+      <transition name="fade" class="transitionName"  mode="out-in">
         <keep-alive>
             <router-view />
         </keep-alive>
@@ -24,11 +24,14 @@ body,
   height: 100%;
   margin: 0px;
   padding: 0px;
-  background-color: #141f2f;
+  background-color: #1e2b46 ;
+}
+#app>div{
+  padding:0 !important
 }
 .container{
   position: relative;
-  margin-top: 48px;
+  top: 48px;
   height: calc(100% - 48px);
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <span class="header-logo">ui库</span>
+        <span class="header-logo"><i class="el-icon-s-grid" style="color:#9fd225; font-size: 20px; vertical-align: middle"></i> Web UI 库</span>
         <div class="header-operation" @click="loginout">退出</div>
     </div>
 </template>
@@ -33,18 +33,22 @@ export default {
     top: 0;
     width: 100%;
     height: 48px;
+    line-height: 48px;
     text-align: left;
     align-items: center;
-    background: #2a7b94;
+    background: #1e2f4e ;
+    overflow: hidden;
     border-bottom: 1px solid #363f77;
 }
 .header-logo{
-    font-size: 22px;
-    font-weight: 600;
+    position: relative;
+    font-size: 16px;
+    font-weight: bolder;
     margin-left: 38px;
     color: #fff;
 }
 .header-operation{
     margin-right: 50px;
+    font-size: 12px;
 }
 </style>

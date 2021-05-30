@@ -2,22 +2,24 @@
     <div>
         <template>
             <section class="operation-category">
-                <el-form inline :model="searchForm" label-width="auto"  ref="operationResetForm" class="demo-form-inline" @submit.native.prevent>
-                    <el-form-item label="名称" prop="tableName">
-                        <el-input v-model.trim="searchForm.tableName" clearable placeholder="请输入名称"  @change='searchBy'>
+                <el-form inline :model="searchForm" label-width="60px" ref="operationResetForm" class="demo-form-inline" @submit.native.prevent>
+                    <el-form-item prop="tableName" style="margin-right: 60px">
+                        <el-input v-model.trim="searchForm.tableName" clearable placeholder="请输入名称"  @change='searchBy' style="width: 360px">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="银行" prop="submitType">
-                        <el-select v-model.trim="searchForm.submitType" @change='searchBy' clearable placeholder="请选择">
+                    <!-- <el-form-item label="银行" prop="submitType" style="margin-right: 60px">
+                        <el-select v-model.trim="searchForm.submitType" @change='searchBy' clearable placeholder="请选择" style="width: 360px">
                             <el-option
                                 :key="item.roleId" 
                                 :value="item.roleId" 
                                 :label="item.roleName"
                                 v-for="item in submitTypeList"/>
                         </el-select>
-                    </el-form-item>
-                    <el-form-item label="处理时间" prop='date' >
-                        <el-date-picker clearable
+                    </el-form-item> -->
+                    <!-- <el-form-item label="处理时间" prop='date' style="margin-right: 60px">
+                        <el-date-picker 
+                            clearable
+                            style="width: 360px"
                             type="daterange"
                             range-separator="→"
                              @change='searchBy'
@@ -27,12 +29,12 @@
                             end-placeholder="处理结束时间"
                             start-placeholder="处理开始时间"
                             popper-class="custom-date-panel"/>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item>
-                        <el-button type="primary" @click="searchBy">搜索</el-button>
-                        <el-button type="primary" @click="resetSearch">重置</el-button>
-                        <el-button type="primary" @click="report">导出</el-button>
-                        <el-button type="primary" @click="addShoppingData">添加新数据</el-button>
+                        <el-button type="primary" icon="el-icon-search" @click="searchBy" style="background-color: #7c9b5d;">搜索</el-button>
+                        <el-button type="info" icon="el-icon-share" @click="resetSearch" style="background-color: #586b92">重置</el-button>
+                        <!-- <el-button type="text" @click="report">导出</el-button>
+                        <el-button type="text" @click="addShoppingData">添加新数据</el-button> -->
                     </el-form-item>
                 </el-form>
             </section>
@@ -54,7 +56,7 @@
                     <el-table-column show-overflow-tooltip min-width="100px" prop="create_times" label="处理时间"></el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <a @click="handleAdd(scope.row, scope.$index)">添加</a> &nbsp;&nbsp;
+                            <a @click="handleAdd(scope.row, scope.$index)" style="color:#da8018">添加</a> &nbsp;&nbsp;
                             <el-tooltip class="item" effect="dark" content="删除" placement="bottom">
                                 <el-popover
                                     width="160"
@@ -67,7 +69,7 @@
                                         <el-button type="danger" size="mini" class="btn-default-8" @click="pCancel(scope.$index)">取消</el-button>
                                         <el-button type="info" size="mini" class="btn-default-7" @click="handleDelete(scope.row, scope.$index)">确定</el-button>
                                     </div>
-                                    <el-button type="text" slot="reference" size="small">删除</el-button>
+                                    <el-button type="text" slot="reference" size="small" style="color:rgb(159, 210, 37)">删除</el-button>
                                 </el-popover>
                             </el-tooltip>
                         </template>
@@ -150,7 +152,13 @@ export default {
                     tablePeople: '张三',
                     tableStatus: false,
                     tableTime: '2020-06-10'
-                }
+                },
+                {tableName: '卡号挂失'},
+                {tableName: '卡号挂失'},
+                {tableName: '卡号挂失'},
+                {tableName: '卡号挂失'},
+                {tableName: '卡号挂失'},
+                {tableName: '卡号挂失'},
             ],
             loading: false,
             page: {
@@ -287,5 +295,16 @@ export default {
 <style>
 .feut-pagination {
 
+}
+
+/* checkbox */
+.el-checkbox__inner{
+    background-color: transparent;
+}
+.el-switch__core:after{
+    background-color: #9fd225;
+}
+.el-switch__core{
+    background-color: #1e2f4e;
 }
 </style>

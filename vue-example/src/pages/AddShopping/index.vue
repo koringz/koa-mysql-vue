@@ -1,5 +1,5 @@
 <template>
-  <div class="feut-shopping" style="width: 1000px;">
+  <div class="feut-shopping">
       <div class="feut-shopping-form-box">
         <el-form :model="setFormData" :rules="addRules" ref="setFormData" label-width="120px">
           <el-form-item prop="name" label="名称">
@@ -33,6 +33,30 @@
               v-model.trim="setFormData.date"
               popper-class="custom-date-panel"
               :picker-options="pickerOptionsAfter"/>
+          </el-form-item>
+          <el-form-item prop='policeStation' label="所属单位" >
+              <el-cascader
+                  clearable
+                  placeholder="所属单位"
+                  popper-class="self-cascader"
+                  :props="{ checkStrictly: true }"
+                  v-model="setFormData.policeStation"/>
+          </el-form-item>
+          <el-form-item prop='policeStation' label="所属单位" >
+              <el-cascader
+                  clearable
+                  placeholder="所属单位"
+                  popper-class="self-cascader"
+                  :props="{ checkStrictly: true }"
+                  v-model="setFormData.policeStation"/>
+          </el-form-item>
+          <el-form-item prop='policeStation' label="所属单位" >
+              <el-cascader
+                  clearable
+                  placeholder="所属单位"
+                  popper-class="self-cascader"
+                  :props="{ checkStrictly: true }"
+                  v-model="setFormData.policeStation"/>
           </el-form-item>
           <el-form-item prop='policeStation' label="所属单位" >
               <el-cascader

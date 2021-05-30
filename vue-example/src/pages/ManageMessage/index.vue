@@ -37,7 +37,6 @@ export default {
     margin: 0 auto;
     padding: 22px 38px;
     width: 600px;
-    background-color: #0d1623;
 }
 .feut-manager-message h1{
     line-height: 44px;
