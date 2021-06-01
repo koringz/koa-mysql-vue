@@ -3,8 +3,8 @@
         <template>
             <section class="operation-category">
                 <el-form inline :model="searchForm" label-width="60px" ref="operationResetForm" class="demo-form-inline" @submit.native.prevent>
-                    <el-form-item prop="tableName" style="margin-right: 60px">
-                        <el-input v-model.trim="searchForm.tableName" clearable placeholder="请输入名称"  @change='searchBy' style="width: 360px">
+                    <el-form-item prop="keyWord" style="margin-right: 60px">
+                        <el-input v-model.trim="searchForm.keyWord" clearable placeholder="请输入名称"  @change='searchBy' style="width: 360px">
                         </el-input>
                     </el-form-item>
                     <!-- <el-form-item label="银行" prop="submitType" style="margin-right: 60px">
@@ -31,7 +31,7 @@
                             popper-class="custom-date-panel"/>
                     </el-form-item> -->
                     <el-form-item>
-                        <el-button type="primary" icon="el-icon-search" @click="searchBy" style="background-color: #7c9b5d;">搜索</el-button>
+                        <el-button type="primary" icon="el-icon-search" @click="searchBy(true)" style="background-color: #7c9b5d;">搜索</el-button>
                         <el-button type="info" icon="el-icon-share" @click="resetSearch" style="background-color: #586b92">重置</el-button>
                         <!-- <el-button type="text" @click="report">导出</el-button>
                         <el-button type="text" @click="addShoppingData">添加新数据</el-button> -->
@@ -98,6 +98,7 @@
 
 <script>
 import qs from 'qs'
+import { api_user_list } from '@/api/index.js'
 export default {
     data() {
         return {
@@ -131,7 +132,7 @@ export default {
             },
 
             searchForm: {
-                tableName: '',
+                keyWord: '',
                 date: [],
                 submitType: '',
             },
@@ -146,19 +147,19 @@ export default {
             },
             tableData: [
                 {
-                    tableName: '卡号挂失',
+                    keyWord: '卡号挂失',
                     tableAccount: '',
                     tableBank: '中国银行',
                     tablePeople: '张三',
                     tableStatus: false,
                     tableTime: '2020-06-10'
                 },
-                {tableName: '卡号挂失'},
-                {tableName: '卡号挂失'},
-                {tableName: '卡号挂失'},
-                {tableName: '卡号挂失'},
-                {tableName: '卡号挂失'},
-                {tableName: '卡号挂失'},
+                {keyWord: '卡号挂失'},
+                {keyWord: '卡号挂失'},
+                {keyWord: '卡号挂失'},
+                {keyWord: '卡号挂失'},
+                {keyWord: '卡号挂失'},
+                {keyWord: '卡号挂失'},
             ],
             loading: false,
             page: {
@@ -176,9 +177,9 @@ export default {
     },
     methods: {
         // 搜索 search
-        searchBy() {
+        searchBy(search) {
             this.page.index = 1
-            this.handleList()
+            this.handleList(search)
         },
         resetSearch() { 
             // 重置
@@ -199,38 +200,39 @@ export default {
                 }
             })
         },
+        // 导出
         report () {
-            // 导出
             let params = this.getParams()
             window.location.href = `/api/grid?${qs.stringify(params)}`
         },
+        mixin_filterParams(obj) {
+            for(let item in obj) obj[item] == ''&& delete obj[item]
+            return obj;
+        },
         getParams() {
-            let search_data = this.searchForm.tableName
-            let create_times = this.searchForm.date && this.searchForm.date.length ? this.searchForm.date[0] +' 00:00:00': ''
-            let updated_times = this.searchForm.date && this.searchForm.date.length ? this.searchForm.date[1] +' 23:59:59': ''
-
-            let page_index = this.page.index
-            let page_size = this.page.size
-            
-            let params = { search_data, create_times, updated_times, page_index, page_size }
+            let { date, keyWord } = this.searchForm
+            let create_times = date && date.length ? date[0] +' 00:00:00': ''
+            let updated_times = date && date.length ? date[1] +' 23:59:59': ''
+            let params = { keyWord, create_times, updated_times }
             return this.mixin_filterParams(params)
         },
         // 显示 table
-        handleList () {
-            let params = this.getParams()
-            this.$api.api_user_list(params)
-            .then(res => {
+        handleList (search) {
+            api_user_list({...this.page,...this.getParams(search)}).then(res => {
                 if (res.data.code) {
                     this.tableData  =   res.data.data
                     this.page.total =   res.data.total || 0
                 }
+                else {
+                    if(search) {
+                        this.$message.error('搜索数据为空')
+                    }
+                }
             }) .catch(error => console.log(error))
         },
         handleFilterChange () {
-
         },
         handleAllSelectionChange () {
-
         },
         // 操作 table
         sortChange(sortData) {
@@ -269,17 +271,7 @@ export default {
             this.page.index = index
             this.handleList()
         },
-        mixin_filterParams(obj) {
-            var _newPar = {};
-            for (var key in obj) {
-                if ((obj[key] === 0 || obj[key] === false || obj[key]) && obj[key].toString().replace(/(^\s*)|(\s*$)/g, '') !== '') {
-                    _newPar[key] = obj[key];
-                }
-            }
-            return _newPar;
-        },
         handleAdd(row, index) {
-
         },
         handleDelete(row, index) {
             this.handleList()
