@@ -40,9 +40,9 @@ export default {
     }
 } 
 </script>
-<style>
+<style scoped>
 img{
-    margin-right: 100px
+    margin-right: 24px
 }
 .view-title{
     padding: 20px 0;

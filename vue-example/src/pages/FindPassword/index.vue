@@ -1,4 +1,5 @@
 <template>
+<div style="margin-top:12px">
     <el-form :model='setFormData' :rules="rules" ref="ruleForm" label-width="124px" >
         <el-form-item label="用户名" prop="username">
             <el-input  v-model.trim="setFormData.username"  placeholder="用户名"  ></el-input>
@@ -21,6 +22,7 @@
             <el-button type="primary" @click="handleSubmit">提交</el-button>
         </el-form-item>
     </el-form>
+</div>
 </template>
 
 <script>
