@@ -19,6 +19,8 @@
 import Vue from 'vue'
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
+import pa from '@/assets/images/pa.jpg'
+import wind from '@/assets/images/wind.jpg'
 
 Vue.use(Viewer, {
     defaultOptions: {
@@ -30,8 +32,8 @@ export default {
     data () {
         return {
             images: [
-                'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1591851097&di=1abf98bf8bddbcbd3e4da41f9282cb5c&src=http://img01.mopimg.cn/nanning/forum/201402/14/154032f6311g5b63546b1b.jpg',
-                'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1591861181581&di=450264df9ea97e35a6ec8ab60f530d65&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1205%2F22%2Fc0%2F11704482_1337657341929.jpg'
+                pa,
+                wind
             ],
             other: []
         }
